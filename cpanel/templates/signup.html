@@ -3,21 +3,22 @@
     alert('{{ messg }}');
 </script>
 {% endif %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Sign</title>
+    <meta charset="UTF-8">
+    <title>Sign</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 </head>
 <body>
 <form action="/postsignup/" method="post">
     {% csrf_token %}
-    Name:
+    <d>Name:</d>
     <input type="text" name="name"><br><br>
-    Email :
+    <d>Email :</d>
     <input type="email" name="email"><br><br>
-    Phone number:
-    <input type="number" name="phone"><br><br>
-    Password:
+    <d>Password:</d>
     <input type="password" name="pass"><br><br>
     <input type="submit" value="SignUp">
 </form>

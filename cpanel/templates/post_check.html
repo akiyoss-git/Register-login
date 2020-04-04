@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+        position : absolute;
+        right : 10px;
+        top : 5px
+        }
+
+    </style>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+
+
+<div>
+
+<button type="button" onclick="location.href='{% url 'log' %}'">Logout</button>
+    </div>
+Welcome {{e}}
+<br><br>
+<d>Название: {{name}}<br></d>
+<d>Цена: {{price}}<br></d>
+<d>Описание: {{desc}}</d>
+<form action="/change/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="name" value="{{name}}" >
+    <input type="hidden" name="price" value="{{price}}" >
+    <input type="hidden" name="desc" value="{{desc}}" >
+    <input type="hidden" name="time" value="{{t}}">
+    <input type="submit" value="Редактировать">
+</form>
+<form action="/delete/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="time" value="{{t}}">
+    <input type="submit" value="Удалить">
+</form>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+        position : absolute;
+        right : 10px;
+        top : 5px
+        }
+        
+#myTable {
+    border-collapse: collapse; /* Collapse borders */
+    width: 100%; /* Full-width */
+    border: 1px solid #ddd; /* Add a grey border */
+    font-size: 18px; /* Increase font-size */
+}
+
+#myTable th, #myTable td {
+    text-align: left; /* Left-align text */
+    padding: 12px; /* Add padding */
+}
+
+#myTable tr {
+    /* Add a bottom border to all table rows */
+    border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+    /* Add a grey background color to the table header and on hover */
+    background-color: #f1f1f1;
+}
+
+    </style>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+
+
+<div>
+<form method="get" action="/check" id="s">
+    {% csrf_token %}
+
+    <input type="text" placeholder="search..." name="search">
+    <input type="hidden" value="{{uid}}" >
+    <button type="submit" onclick="location.href='/check/?uid={{uid}}'" form="s">Go</button>
+<button type="button" onclick="location.href='{% url 'log' %}'">Logout</button>
+    </form></div>
+<d>Здравствуйте {{e}}</d>
+<br><br>
+<table id="myTable">
+    <tr class="header">
+      <th style="width:60%;">Name</th>
+      <th style="width:40%;">Price</th>
+    </tr>
+{% for time,name,work in comb_lis %}
+<tr>
+<td><a href="/post_check/?z={{time}}"  >{{name}}</a></td>
+<td>{{work}}</td>
+</tr>
+{% endfor %}
+</table>
+<button type="button" onclick="location.href='{% url 'create' %}'">Создать новое поле</button>
+</body>
+</html>

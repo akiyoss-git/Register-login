@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign</title>
+<style>
+        div{
+        position : absolute;
+        right : 10px;
+        top : 5px
+        }
+
+    </style>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+</head>
+<body>
+<div>
+
+<button type="button" onclick="location.href='{% url 'log' %}'">Logout</button>
+    </div>
+{% if state == 0 %}
+<H2>Создать наименование услуги</H2>
+<form action="/post_create/" method="post">
+    {% csrf_token %}
+    Название:
+    <input type="text" name="name" required "><br><br>
+    Цена:
+    <input type="number" name="price" required ><br><br>
+    Описание:
+    <textarea rows="5" cols="40" name="desc" required ></textarea>
+    <br><br>
+    <input type="hidden" name="url" id="url">
+    <input type="submit" value="Подтвердить">
+</form>
+{% else %}
+<H2>Редактировать наименование услуги</H2>
+<form action="/post_change/" method="post">
+    {% csrf_token %}
+    Название:
+    <input type="text" name="name" required value="{{name}}"><br><br>
+    Цена:
+    <input type="number" name="price" required value="{{price}}"><br><br>
+    Описание:
+    <input type="text" name="desc" required value="{{desc}}"></input>
+    <br><br>
+    <input type="hidden" name="time" value="{{t}}">
+    <input type="submit" value="Подтвердить">
+</form>
+{% endif %}
+</body>
+</html>
