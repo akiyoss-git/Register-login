@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <table id="table">
+    <tr>
+      <th><button onclick="sortByName ()">Имя</button></th>
+      <th><button onclick="sortByPrice ()">Фамилия</button></th>
+      <th><button>Возраст</button></th>
+    </tr>
+    <tr>
+      <td>John</td>
+      <td>Smith</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Pete</td>
+      <td>Brown</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <td>Ann</td>
+      <td>Lee</td>
+      <td>5</td>
+    </tr>
+  </table>
+
+  <script>
+    function sortByName(){ 
+    let sortedRowsName = Array.from(table.rows)
+      .slice(1)
+      .sort((rowA, rowB) => rowA.cells[0].innerHTML > rowB.cells[0].innerHTML ? 1 : -1);
+      
+    table.tBodies[0].append(...sortedRowsName);
+    }
+    function sortByPrice(){  
+    let sortedRowsPrice = Array.from(table.rows)
+      .slice(1)
+      .sort((rowA, rowB) => rowA.cells[1].innerHTML > rowB.cells[1].innerHTML ? 1 : -1);
+    
+        table.tBodies[0].append(...sortedRowsPrice);
+    }
+  </script>
+
+</body>
+</html>

@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf import settings # new
+from django.urls import path, include # new
+from django.conf.urls.static import static # new
 
 from . import views
 urlpatterns = [
@@ -31,4 +34,9 @@ urlpatterns = [
     url(r'^delete/',views.delete,name='delete'),
     url(r'^change/',views.change,name='change'),
     url(r'^post_change/',views.post_change,name='post_change'),
+    url(r'^start/',views.start,name='start'),
+    url(r'^upd/',views.upload_doc,name='upload_doc'),
 ]
+
+if settings.DEBUG: # new
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

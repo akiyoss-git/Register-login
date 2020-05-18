@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 </head>
 <body>
-
+<button type="button" onclick="location.href='{% url 'start' %}'">Вернутся в меню</button>
 
 <div>
 <form method="get" action="/check" id="s">
@@ -48,20 +48,35 @@
     <button type="submit" onclick="location.href='/check/?uid={{uid}}'" form="s">Go</button>
 <button type="button" onclick="location.href='{% url 'log' %}'">Logout</button>
     </form></div>
-<d>Здравствуйте {{e}}</d>
 <br><br>
-<table id="myTable">
+<table id="myTable" class="sortable">
     <tr class="header">
-      <th style="width:60%;">Name</th>
-      <th style="width:40%;">Price</th>
+      <th style="width:60%;">Name<button onclick='sortByName ()'>˅</button></th>
+      <th style="width:40%;">Price<button onclick='sortByPrice ()'>˅</button></th>
     </tr>
 {% for time,name,work in comb_lis %}
 <tr>
-<td><a href="/post_check/?z={{time}}"  >{{name}}</a></td>
-<td>{{work}}</td>
+    <td><a href="/post_check/?z={{time}}">{{name}}</a></td>
+    <td>{{work}}</td>
 </tr>
 {% endfor %}
 </table>
+<script>
+    function sortByName(){
+    let sortedRowsName = Array.from(myTable.rows)
+      .slice(1)
+      .sort((rowA, rowB) => rowA.cells[0].innerHTML > rowB.cells[0].innerHTML ? 1 : -1);
+      
+    myTable.tBodies[0].append(...sortedRowsName);
+    }
+    function sortByPrice(){
+    let sortedRowsPrice = Array.from(myTable.rows)
+      .slice(1)
+      .sort((rowA, rowB) => rowA.cells[1].innerHTML > rowB.cells[1].innerHTML ? 1 : -1);
+    
+        myTable.tBodies[0].append(...sortedRowsPrice);
+    }
+  </script>
 <button type="button" onclick="location.href='{% url 'create' %}'">Создать новое поле</button>
 </body>
 </html>

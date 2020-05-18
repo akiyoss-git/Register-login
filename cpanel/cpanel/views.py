@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import pyrebase
 from django.contrib import auth
+from .forms import UploadDocumentForm
 
 config = {
   'apiKey': "AIzaSyBXgvtowzljY_2UjRnO4BeRY1CXP55jrXk",
@@ -21,6 +22,9 @@ database=firebase.database()
 def signIn(request):
     return render(request, "signIn.html")
 
+def start(request):
+    return render(request, "welcome.html")
+
 def postsign(request):
     email=request.POST.get('email')
     passw = request.POST.get("pass")
@@ -38,6 +42,15 @@ def logout(request):
     auth.logout(request)
     return render(request,'signIn.html')
 
+def upload_doc(request):
+    form = UploadDocumentForm()
+    if request.method == 'POST':
+        form = UploadDocumentForm(request.POST, request.FILES)  # Do not forget to add: request.FILES
+        if form.is_valid():
+            # Do something with our files or simply save them
+            # if saved, our files would be located in media/ folder under the project's base folder
+            form.save()
+    return render(request, 'upload_doc.html', locals())
 
 def signUp(request):
     return render(request,"signup.html")
@@ -62,40 +75,34 @@ def create(request):
     return render(request,'create.html',{'state':0})
 
 def check(request):
-    print(request)
     if request.method == 'GET' and 'csrfmiddlewaretoken' in request.GET:
         search = request.GET.get('search')
         search = search.lower()
         uid = request.GET.get('uid')
-        print(search)
-        print(uid)
         timestamps = database.child('reports').shallow().get().val()
         price_id=[]
         for i in timestamps:
 
-            wor = database.child('reports').child(i).child('price').get().val()
+            wor = database.child('reports').child(i).child('name').get().val()
             wor = str(wor)+"$"+str(i)
             price_id.append(wor)
 
         matching = [str(string) for string in price_id if search in string.lower()]
 
-        s_price=[]
+        wnames=[]
         s_id=[]
-
+        print(matching)
         for i in matching:
 
-            price,ids=i.split('$')
-            s_price.append(price)
+            wname,ids=i.split('$')
+            wnames.append(wname)
             s_id.append(ids)
-        print(s_price)
-        print(s_id)
-        date = []
+        prices = []
         import datetime
         for i in s_id:
-            i = float(i)
-            dat = datetime.datetime.fromtimestamp(i).strftime('%H:%M %d-%m-%Y')
-            date.append(dat)
-        comb_lis = zip(s_id, date, s_price)
+            price = database.child('reports').child(i).child('price').get().val()
+            prices.append(price)
+        comb_lis = QuerySet(s_id, wnames, prices)
         name = database.child('users').child('details').child('name').get().val()
 
         return render(request, 'check.html', {'comb_lis': comb_lis, 'e': name, 'uid': uid})
@@ -116,7 +123,7 @@ def check(request):
 
         lis_time.sort(reverse=True)
 
-        print(lis_time)
+        print("lt= "+ str(lis_time))
         price = []
         name = []
         for i in lis_time:
@@ -125,7 +132,7 @@ def check(request):
             nam = database.child('reports').child(i).child('name').get().val()
             name.append(nam)
             price.append(wor)
-        print(price)
+        print("price= "+str(price))
 
         comb_lis = zip(lis_time,name,price)
         username = database.child('users').child('details').child('name').get().val()
