@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        div{
+div{
         position : absolute;
         right : 10px;
         top : 5px
@@ -31,7 +31,6 @@
     /* Add a grey background color to the table header and on hover */
     background-color: #f1f1f1;
 }
-
     </style>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -49,17 +48,35 @@
 <button type="button" onclick="location.href='{% url 'log' %}'">Logout</button>
     </form></div>
 <br><br>
+<button type="button" onclick="location.href='{% url 'create' %}'">Создать новое поле</button>
+<button type="button" onclick='openForm ()' class="buttdoc">Загрузить таблицу</button>
+<button type="button" onclick="location.href='/media/pricelist.xlsx'">Скачать таблицу</button>
+<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data" style="display:none" class="formdoc">
+            {% csrf_token %}
+            <p>{{ form.non_field_errors }}</p>
+
+            <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+
+            <p>
+                {{ form.docfile.errors }}
+                {{ form.docfile }}
+            </p>
+
+            <p><input type="submit" value="Upload"/></p>
+        </form>
 <table id="myTable" class="sortable">
     <tr class="header">
       <th style="width:60%;">Name<button onclick='sortByName ()'>˅</button></th>
       <th style="width:40%;">Price<button onclick='sortByPrice ()'>˅</button></th>
     </tr>
+{% if comb_lis %}
 {% for time,name,work in comb_lis %}
 <tr>
     <td><a href="/post_check/?z={{time}}">{{name}}</a></td>
     <td>{{work}}</td>
 </tr>
 {% endfor %}
+{%endif%}
 </table>
 <script>
     function sortByName(){
@@ -76,7 +93,12 @@
     
         myTable.tBodies[0].append(...sortedRowsPrice);
     }
+    function openForm(){
+        let form = document.getElementsByClassName('formdoc')
+        form[0].style.display = 'block'
+        let button = document.getElementsByClassName('buttdoc')
+        button[0].style.display = 'none'
+    }
   </script>
-<button type="button" onclick="location.href='{% url 'create' %}'">Создать новое поле</button>
 </body>
 </html>

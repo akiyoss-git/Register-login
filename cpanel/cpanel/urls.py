@@ -19,23 +19,9 @@ from django.conf import settings # new
 from django.urls import path, include # new
 from django.conf.urls.static import static # new
 
-from . import views
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^$',views.signIn),
-    url(r'^postsign/',views.postsign),
-    url(r'^logout/',views.logout,name="log"),
-    url(r'^signup/',views.signUp,name='signup'),
-    url(r'^postsignup/',views.postsignup,name='postsignup'),
-    url(r'^create/',views.create,name='create'),
-    url(r'^post_create/',views.post_create,name='post_create'),
-    url(r'^check/',views.check,name='check'),
-    url(r'^post_check/',views.post_check,name='post_check'),
-    url(r'^delete/',views.delete,name='delete'),
-    url(r'^change/',views.change,name='change'),
-    url(r'^post_change/',views.post_change,name='post_change'),
-    url(r'^start/',views.start,name='start'),
-    url(r'^upd/',views.upload_doc,name='upload_doc'),
+    path('admin/', admin.site.urls),
+    path('', include('base.urls')),
 ]
 
 if settings.DEBUG: # new
